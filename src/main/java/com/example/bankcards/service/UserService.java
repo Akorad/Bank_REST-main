@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface UserService {
     UserResponse register(UserRegisterRequest request);
-    Optional<User> findByUsername(String username);
+    Optional<UserResponse> findByUsername(String username);
+    Optional<User> findEntityByUserName(String username);
 }

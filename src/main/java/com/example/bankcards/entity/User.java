@@ -26,5 +26,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private boolean enabled;
+    @Builder.Default
+    private boolean enabled = true;
 }

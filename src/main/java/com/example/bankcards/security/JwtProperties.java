@@ -1,4 +1,4 @@
-package com.example.bankcards.config;
+package com.example.bankcards.security;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "jwt")
-public class JwtConfig {
+public class JwtProperties {
     private String secret;
     private long expiration;
 }
