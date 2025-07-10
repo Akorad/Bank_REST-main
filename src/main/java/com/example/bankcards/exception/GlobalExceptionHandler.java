@@ -49,6 +49,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(ex, HttpStatus.BAD_REQUEST, request.getRequestURI());
     }
 
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<ErrorResponse> insufficientBalanceException(InsufficientBalanceException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex, HttpStatus.BAD_REQUEST, request.getRequestURI());
+    }
+
     private ResponseEntity<ErrorResponse> buildErrorResponse(Exception ex, HttpStatus status, String path) {
         ErrorResponse response = new ErrorResponse(
                 LocalDateTime.now(),

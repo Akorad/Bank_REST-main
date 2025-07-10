@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Card {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "number" , nullable = false)
@@ -33,6 +33,9 @@ public class Card {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;                    //дата создания
+
+    @Column(name = "balance", nullable = false)
+    private Double balance;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

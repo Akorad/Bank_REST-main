@@ -12,7 +12,7 @@ public class CardResponseDTO {
     private Long id;
 
     @Schema(description = "Маскированный номер карты", example = "**** **** **** 1234")
-    private String maskedNumber;
+    private String number;
 
     @Schema(description = "Срок действия карты", example = "12/25")
     private String expirationDate;
@@ -22,4 +22,7 @@ public class CardResponseDTO {
 
     @Schema(description = "Статус карты", example = "ACTIVE")
     private CardStatus status;
+
+    @Schema(description = "Баланс карты>", example = "500.00")
+    private Double balance;
 }

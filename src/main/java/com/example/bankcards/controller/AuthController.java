@@ -31,7 +31,7 @@ public class AuthController {
             summary = "Регистрация нового пользователя",
             description = "Создает нового пользователя",
             responses = {
-                    @ApiResponse(responseCode = "200" , description = "Пользователь зарегистрирован",
+                    @ApiResponse(responseCode = "201" , description = "Пользователь зарегистрирован",
                     content = @Content(mediaType = "application/json",schema = @Schema(implementation = UserResponse.class))),
                     @ApiResponse(responseCode = "400", description = "Ошибка валидации запроса", content = @Content)
             }

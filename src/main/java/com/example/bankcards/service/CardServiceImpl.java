@@ -8,6 +8,7 @@ import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.CardNotFoundException;
 import com.example.bankcards.exception.InvalidCardStatusException;
 import com.example.bankcards.repository.CardRepository;
+import com.example.bankcards.util.CardUtils;
 import com.example.bankcards.util.EncryptionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,11 +16,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import static com.example.bankcards.util.CardUtils.maskCardNumber;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +40,7 @@ public class CardServiceImpl implements CardService {
     public CardResponseDTO createCard() {
         User user = userService.getCurrentUser();
 
-        String fullName = transliterate(user.getLastName() + " " + user.getFirstName());
+        String fullName = transliterate(user.getFirstName() + " " + user.getLastName());
 
         Card card = new Card();
         card.setNumber(generateUniqueCardNumber(user.getUsername()));
@@ -44,8 +48,16 @@ public class CardServiceImpl implements CardService {
         card.setOwnerName(fullName);
         card.setUser(user);
         card.setStatus(CardStatus.ACTIVE);
+        card.setCreatedAt(LocalDateTime.now());
 
-        return cardMapper.toDto(cardRepository.save(card));
+        card.setBalance(1000.0);
+
+        Card savedCard = cardRepository.save(card);
+        CardResponseDTO dto = cardMapper.toDto(savedCard);
+
+        dto.setNumber(maskCardNumber(savedCard.getNumber()));
+
+        return dto;
     }
 
     @Override
@@ -74,6 +86,7 @@ public class CardServiceImpl implements CardService {
         Card card = cardRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException(id));
 
+        card.setNumber(maskCardNumber(card.getNumber()));
         return cardMapper.toDto(card);
     }
 
@@ -110,14 +123,13 @@ public class CardServiceImpl implements CardService {
     private String generateCardNumber(String username) {
         String prefix = "4571"; // фиксированный префикс банка
 
-        // Используем хэш от логина, чтобы всегда получать одно и то же для одного юзера
         int hash = Math.abs(username.hashCode());
         String userPart = String.format("%04d", hash % 10000);
 
         String randomPart = String.format("%04d", new Random().nextInt(10000));
         String yearPart = String.valueOf(LocalDate.now().getYear());
 
-        return prefix + userPart + randomPart + yearPart;
+        return prefix + userPart + yearPart + randomPart;
     }
 
     private String generateUniqueCardNumber(String username) {

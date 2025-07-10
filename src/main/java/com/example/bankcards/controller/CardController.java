@@ -32,22 +32,22 @@ public class CardController {
     @PatchMapping("/{cardId}/status")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Обновить статус карты", description = "Доступно ADMIN и USER")
-    public CardResponseDTO updateStatus(@PathVariable Long cardId,
-                                        @RequestParam String status) {
+    public CardResponseDTO updateStatus(@PathVariable("cardId") Long cardId,
+                                        @RequestParam("status") String status) {
         return cardService.updateStatus(cardId, status);
     }
 
     @DeleteMapping("/{cardId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Удалить карту", description = "Доступно ADMIN и USER")
-    public void deleteCard(@PathVariable Long cardId) {
+    public void deleteCard(@PathVariable("cardId") Long cardId) {
         cardService.deleteCard(cardId);
     }
 
     @GetMapping("/{cardId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @Operation(summary = "Получить карту по ID", description = "Доступно ADMIN и USER")
-    public CardResponseDTO getCardById(@PathVariable Long cardId) {
+    public CardResponseDTO getCardById(@PathVariable("cardId") Long cardId) {
         return cardService.getCardById(cardId);
     }
 

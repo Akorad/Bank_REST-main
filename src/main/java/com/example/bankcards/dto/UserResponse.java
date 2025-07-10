@@ -2,6 +2,8 @@ package com.example.bankcards.dto;
 
 import com.example.bankcards.entity.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -16,4 +18,10 @@ public class UserResponse {
 
     @Schema(description = "Роль пользователя", example = "USER")
     private Role role;
+
+    @Schema(description = "Имя пользователя", example = "Иван")
+    private String firstName;
+
+    @Schema(description = "Фамилия пользователя", example = "Иванов")
+    private String lastName;
 }

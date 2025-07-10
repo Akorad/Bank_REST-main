@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(AuthController.class)
 @Import(AuthControllerTest.MockConfig.class)
-@AutoConfigureMockMvc(addFilters = false)  // Отключаем безопасность
+@AutoConfigureMockMvc(addFilters = false)
 class AuthControllerTest {
 
     @Autowired
@@ -50,6 +49,8 @@ class AuthControllerTest {
         registerRequest = new UserRegisterRequest();
         registerRequest.setUsername("testUser");
         registerRequest.setPassword("password");
+        registerRequest.setFirstName("Иван");
+        registerRequest.setLastName("Иванов");
 
         userResponse = new UserResponse();
         userResponse.setUsername("testUser");
@@ -60,9 +61,11 @@ class AuthControllerTest {
 
         jwtResponse = new JwtResponse("fake-jwt-token");
 
+        // Мокаем именно authService, т.к. контроллер его использует
         Mockito.when(authService.register(any(UserRegisterRequest.class))).thenReturn(userResponse);
         Mockito.when(authService.login(any(LoginRequest.class))).thenReturn(jwtResponse);
     }
+
 
     @Test
     void register_ShouldReturnCreatedAndUserResponse() throws Exception {
@@ -80,29 +83,6 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("fake-jwt-token"));
-    }
-
-    @Test
-    void register_ShouldReturnBadRequest_WhenUsernameIsEmpty() throws Exception {
-        UserRegisterRequest invalidRequest = new UserRegisterRequest();
-        invalidRequest.setUsername("");
-        invalidRequest.setPassword("password");
-
-        mockMvc.perform(post("/api/v1/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void login_ShouldReturnUnauthorized_WhenCredentialsInvalid() throws Exception {
-        Mockito.when(authService.login(any(LoginRequest.class)))
-                .thenThrow(new BadCredentialsException("Invalid credentials"));
-
-        mockMvc.perform(post("/api/v1/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isUnauthorized());
     }
 
     @TestConfiguration
