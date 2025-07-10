@@ -21,7 +21,8 @@ spring:
         format_sql: true
     open-in-view: false
   liquibase:
-    change-log: classpath:db/migration/V1__create_users_table.yaml
+    change-log: classpath:db/migration/master.yaml
+
 server:
   port: 8080
 
@@ -37,6 +38,8 @@ logging:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-    operationsSorter: method
   api-docs:
     path: /v3/api-docs
+
+encryption:
+  secret: "1234567890123456"

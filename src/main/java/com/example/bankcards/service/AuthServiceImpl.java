@@ -7,6 +7,7 @@ import com.example.bankcards.dto.UserResponse;
 import com.example.bankcards.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,15 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public JwtResponse login(LoginRequest request) {
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword())
-        );
+        Authentication auth;
+        try {
+            auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+        } catch (BadCredentialsException e) {
+            // Можешь перехватить и пробросить своё исключение, или просто пробросить дальше
+            throw new BadCredentialsException("Неверный логин или пароль");
+        }
         String role = auth.getAuthorities().iterator().next().getAuthority();
         String token = jwtTokenProvider.generateToken(request.getUsername(),role);
 

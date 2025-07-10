@@ -10,4 +10,5 @@ public interface UserService {
     UserResponse register(UserRegisterRequest request);
     Optional<UserResponse> findByUsername(String username);
     Optional<User> findEntityByUserName(String username);
+    User getCurrentUser();
 }

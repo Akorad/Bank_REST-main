@@ -11,7 +11,7 @@ import lombok.Setter;
 public abstract class AuthRequest {
     @Schema(
             description = "Имя пользователя (уникальное)",
-            example = "vlad",
+            example = "ivan",
             minLength = 4,
             maxLength = 30
     )

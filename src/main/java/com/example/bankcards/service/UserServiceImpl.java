@@ -6,8 +6,10 @@ import com.example.bankcards.dto.UserResponse;
 import com.example.bankcards.entity.Role;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.UserAlreadyExistsException;
+import com.example.bankcards.exception.UserNotFoundException;
 import com.example.bankcards.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +45,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public Optional<User> findEntityByUserName(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return findEntityByUserName(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
     }
 }
