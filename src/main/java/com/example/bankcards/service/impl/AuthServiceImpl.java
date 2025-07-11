@@ -1,10 +1,12 @@
-package com.example.bankcards.service;
+package com.example.bankcards.service.impl;
 
 import com.example.bankcards.dto.JwtResponse;
 import com.example.bankcards.dto.LoginRequest;
 import com.example.bankcards.dto.UserRegisterRequest;
 import com.example.bankcards.dto.UserResponse;
 import com.example.bankcards.security.JwtTokenProvider;
+import com.example.bankcards.service.AuthService;
+import com.example.bankcards.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final UserService userService;

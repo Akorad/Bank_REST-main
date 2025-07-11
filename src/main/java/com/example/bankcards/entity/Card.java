@@ -18,7 +18,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "number" , nullable = false)
+    @Column(name = "number" , nullable = false, unique = true)
     private String number;                              //номер карты
 
     @Column(name = "owner_name",nullable = false)

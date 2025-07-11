@@ -10,6 +10,7 @@ import com.example.bankcards.exception.CardNotFoundException;
 import com.example.bankcards.exception.InsufficientBalanceException;
 import com.example.bankcards.repository.CardRepository;
 import com.example.bankcards.repository.TransactionRepository;
+import com.example.bankcards.service.impl.TransactionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

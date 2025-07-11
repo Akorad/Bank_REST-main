@@ -42,9 +42,6 @@ public class CardControllerTest {
     @Autowired
     private CardService cardService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     private CardResponseDTO sampleCard;
 
     @BeforeEach
@@ -75,7 +72,7 @@ public class CardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.maskedNumber").value("**** **** **** 1234"));
+                .andExpect(jsonPath("$.number").value("**** **** **** 1234"));
     }
 
     @Test

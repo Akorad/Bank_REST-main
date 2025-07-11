@@ -7,8 +7,8 @@ import com.example.bankcards.entity.CardStatus;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.CardNotFoundException;
 import com.example.bankcards.exception.InvalidCardStatusException;
-import com.example.bankcards.exception.UserNotFoundException;
 import com.example.bankcards.repository.CardRepository;
+import com.example.bankcards.service.impl.CardServiceImpl;
 import com.example.bankcards.util.EncryptionUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,11 +64,11 @@ class CardServiceImplTest {
         testUser.setFirstName("Иван");
         testUser.setLastName("Иванов");
 
-
         card = new Card();
         card.setId(1L);
         card.setStatus(CardStatus.ACTIVE);
         card.setUser(testUser);
+        card.setNumber("1234567890123456"); // <== вот это ключевая строка
 
         responseDto = new CardResponseDTO();
         responseDto.setId(1L);

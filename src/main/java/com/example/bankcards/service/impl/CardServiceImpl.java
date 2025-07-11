@@ -1,4 +1,4 @@
-package com.example.bankcards.service;
+package com.example.bankcards.service.impl;
 
 import com.example.bankcards.dto.CardResponseDTO;
 import com.example.bankcards.dto.CardMapper;
@@ -8,7 +8,8 @@ import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.CardNotFoundException;
 import com.example.bankcards.exception.InvalidCardStatusException;
 import com.example.bankcards.repository.CardRepository;
-import com.example.bankcards.util.CardUtils;
+import com.example.bankcards.service.CardService;
+import com.example.bankcards.service.UserService;
 import com.example.bankcards.util.EncryptionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

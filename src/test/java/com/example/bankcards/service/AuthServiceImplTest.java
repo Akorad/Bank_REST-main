@@ -3,6 +3,7 @@ package com.example.bankcards.service;
 import com.example.bankcards.dto.JwtResponse;
 import com.example.bankcards.dto.LoginRequest;
 import com.example.bankcards.security.JwtTokenProvider;
+import com.example.bankcards.service.impl.AuthServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -20,9 +21,6 @@ class AuthServiceImplTest {
 
     @Mock
     private AuthenticationManager authenticationManager;
-
-    @Mock
-    private UserService userService;
 
     @Mock
     private JwtTokenProvider jwtTokenProvider;
